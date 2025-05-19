@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#container-geral {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin: 10px;
+}
+
+
+#container-controles {
+    padding: 10px;
+}
+
+#cabecalho, #menu {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+}
+
+#menu {
+    flex-direction: column;
+}
+
+
+#container-site--gerado {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* espaço entre os cards */
+    justify-content: flex-start; /* ou space-between, se quiser espaçar */
+}
+
+#gerar-controle {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+.campo-editor {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.input-style-main::placeholder {
+    color: var(--placeholder-color, #868686); /* cor padrão se não for definida */
+}
+
+
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/mainStyle.css"> 
+    <title>Gerador de sites</title>
+</head>
+<body>
+    <header></header>
+
+    <div id="gerar-controle">
+        <button class="botoes-gerar-controles" id="gerar-cabecalho">Gerar cabeçalho</button>
+        <button class="botoes-gerar-controles" id="gerar-menu">Gerar menu</button>
+        <button class="botoes-gerar-controles" id="gerar-galeria">Gerar galeria</button>
+        <button class="botoes-gerar-controles" id="gerar-formulario">Gerar formulário</button>
+        <button class="botoes-gerar-controles" id="gerar-rodape">Gerar rodapé</button>
+    </div>
+
+    <div id="container-geral">
+        <div id="container-controles" style="background-color: aqua; width: 800px;">
+           
+            <h3 class="titulo-editor">Editor</h3>
+
+            <div id="container-controles--editor">
+                <!--FICA OS CONTROLES-->
+                
+            
+
+
+            </div>
+            
+
+            
+        </div>
+            
+
+        <div id="container-site--gerado" style="background-color: aquamarine; width: 800px; display: flex;">
+            <div id="cabecalho">
+                <div class="img-cabecalho">
+                    
+                </div>
+                <div id="texto-container-cabecalho">
+                    <h4 id="seuSiteText">SEU SITE AQ</h4>
+                    <h1 id="texto-cabecalho" class="texto-cabecalho" style="align-items: flex-center;"></h1>
+                </div>
+
+                <form action="" id="form-cabecalho">
+                    
+                </form>
+            </div>
+
+            <div id="menu">
+                <h4 id="seu-menu-aq">SEU MENU AQUI</h4>
+                <div id="titulo-menu"><h2></h2></div>
+                <div id="img-menu" style="display: flex;"></div>
+                <div id="itens-menu" style="display: flex;"></div>
+            </div>
+
+            <div id="galeria"></div>
+
+            <div id="formulario">
+                <div id="titulo-formulario"></div>
+                <div id="campos-formulario"></div>
+            </div>
+
+                
+        </div>
+    </div>
+
+
+    <script src="assets/js/gerar-controles/gerarControlesCabecalho.js"></script>
+    <script src="assets/js/gerar-controles/GerarControlesMenu.js"></script>
+    <script src="assets/js/gerar-controles/gerarControlesGaleria.js"></script>
+    <script src="assets/js/gerar-controles/gerarControlesForm.js"></script>
+
+
+    <script src="assets/js/gerar-site/gerarCabecalho.js"></script>
+    <script src="assets/js/gerar-site/gerarMenu.js"></script>
+    <script src="assets/js/gerar-site/gerarGaleria.js"></script>
+    <script src="assets/js/gerar-site/gerarForm.js"></script>
+</body>
+</html>
