@@ -62,42 +62,172 @@ function configurarCamposFormulario() {
     const btnSalvar = document.getElementById("btn-salvar-form");
     const btnExcluir = document.getElementById("btn-excluir-form");
 
+    let previewWrapper = null;
+    let previewLabel = null;
+    let previewCampo = null;
 
-    let contCampo = 0;
-    tipoCampo.addEventListener("change", function () {
-        let divCampoForm = document.createElement("div");
-        divCampoForm.classList.add("campo-editor");
+    // Array dos inputs de estilo (com seus eventos)
+    const inputsDeEstilo = [
+        {el: tituloCampo, evento: "input"},
+        {el: tamanhoFonteLabel, evento: "input"},
+        {el: corTitulo, evento: "input"},
+        {el: placeholder, evento: "input"},
+        {el: tamanhoFontePlaceholder, evento: "input"},
+        {el: corBorda, evento: "input"},
+        {el: espessuraBorda, evento: "input"},
+        {el: estiloBorda, evento: "change"},
+    ];
 
-        let labelCampoForm = document.createElement("label");
-        labelCampoForm.classList.add("label-style-main");
-        tituloCampo.addEventListener("input", function () {
-            labelCampoForm.textContent = tituloCampo.value;
-        });
-        tamanhoFonteLabel.addEventListener("input", function () {
-            labelCampoForm.style.fontSize = tamanhoFonteLabel.value + "px";
-        })
+    function criarCampo() {
+        const tipo = tipoCampo.value;
+        const labelText = tituloCampo.value;
+        const fontSizeLabel = tamanhoFonteLabel.value || "16";
+        const colorLabel = corTitulo.value || "#000000";
+        const placeholderText = placeholder.value;
+        const fontSizePlaceholder = tamanhoFontePlaceholder.value || "14";
+        const borderColor = corBorda.value || "#000000";
+        const borderWidth = espessuraBorda.value || 1;
+        const borderStyle = estiloBorda.value || "solid";
 
-        divCampoForm.appendChild(labelCampoForm);
-        containerCampos.appendChild(divCampoForm);
-    })
+        const wrapper = document.createElement("div");
+        wrapper.className = "campo-gerado";
+
+        const label = document.createElement("label");
+        label.textContent = labelText;
+        label.classList.add("label-style-main");
+        label.style.color = colorLabel;
+        label.style.fontSize = `${fontSizeLabel}px`;
+
+        let campo;
+
+        if (tipo === "textarea") {
+            campo = document.createElement("textarea");
+        } else if (tipo === "select") {
+            campo = document.createElement("select");
+            const option = document.createElement("option");
+            option.textContent = "Opção 1";
+            campo.appendChild(option);
+        } else if (tipo === "submit") {
+            campo = document.createElement("button");
+            campo.type = "submit";
+            campo.textContent = labelText || "Enviar";
+        } else {
+            campo = document.createElement("input");
+            campo.type = tipo;
+        }
+
+        if (campo.tagName !== "BUTTON") {
+            campo.placeholder = placeholderText;
+            campo.style.fontSize = `${fontSizePlaceholder}px`;
+        }
+
+        campo.classList.add("input-style-main");
+        campo.style.border = `${borderWidth}px ${borderStyle} ${borderColor}`;
+        campo.style.marginTop = "5px";
+        campo.style.display = "block";
+        campo.style.padding = "5px";
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(campo);
+
+        return wrapper;
+    }
+
+
+   function atualizarPreview() {
+        if (!previewWrapper) return;
+
+        if (previewLabel) {
+            previewLabel.textContent = tituloCampo.value;
+            previewLabel.style.fontSize = (tamanhoFonteLabel.value || "16") + "px";
+            previewLabel.style.color = corTitulo.value || "#000";
+        }
+
+        if (previewCampo.tagName !== "BUTTON") {
+            previewCampo.placeholder = placeholder.value;
+            previewCampo.style.fontSize = (tamanhoFontePlaceholder.value || "14") + "px";
+        } else {
+            previewCampo.textContent = tituloCampo.value || "Enviar";
+        }
+
+        previewCampo.style.border = `${espessuraBorda.value || 1}px ${estiloBorda.value || "solid"} ${corBorda.value || "#000"}`;
+    }
+
+
+
+    tipoCampo.addEventListener("change", () => {
+        if (previewWrapper) {
+            previewWrapper.remove();
+        }
+
+        previewWrapper = document.createElement("div");
+        previewWrapper.classList.add("campo-editor");
+
+        previewLabel = document.createElement("label");
+        previewLabel.classList.add("label-style-main");
+
+        const tipo = tipoCampo.value;
+        if (tipo === "textarea") {
+            previewCampo = document.createElement("textarea");
+        } else if (tipo === "select") {
+            previewCampo = document.createElement("select");
+            const option = document.createElement("option");
+            option.textContent = "Opção 1";
+            previewCampo.appendChild(option);
+        } else if (tipo === "submit") {
+            previewCampo = document.createElement("button");
+            previewCampo.type = "submit";
+            previewCampo.textContent = tituloCampo.value || "Enviar";
+        } else {
+            previewCampo = document.createElement("input");
+            previewCampo.type = tipo;
+        }
+
+        previewCampo.classList.add("input-style-main");
+
+
+        previewCampo.style.marginTop = "5px";
+        previewCampo.style.display = "block";
+        previewCampo.style.padding = "5px";
+
+        if (tipo !== "submit") {
+            previewWrapper.appendChild(previewLabel);
+        }
+        previewWrapper.appendChild(previewCampo);
+
+        containerCampos.appendChild(previewWrapper);
+
+        atualizarPreview();
+    });
+
+    // Aqui adicionamos os eventListeners a todos os inputs de estilo do array:
+    inputsDeEstilo.forEach(({el, evento}) => {
+        el.addEventListener(evento, atualizarPreview);
+    });
+
     btnSalvar.onclick = function () {
-        const campoComLabel = criarCampo();
-        const label = campoComLabel.querySelector("label");
-        const campo = campoComLabel.querySelector("input, textarea, select, button");
+        if (!previewWrapper) return alert("Selecione um tipo de campo primeiro!");
 
-        containerCampos.appendChild(campoComLabel);
-        camposCriados.push(campoComLabel);
+        const novoCampo = criarCampo();
+        containerCampos.appendChild(novoCampo);
+        camposCriados.push(novoCampo);
 
-        adicionarListeners(label, campo);
+        previewWrapper.remove();
+        previewWrapper = null;
+        previewLabel = null;
+        previewCampo = null;
 
-        // Limpar os campos do editor
         tipoCampo.value = "op";
         tituloCampo.value = "";
         tamanhoFonteLabel.value = "";
+        corTitulo.value = "#000000"; // valor padrão válido para cor
         placeholder.value = "";
         tamanhoFontePlaceholder.value = "";
+        corBorda.value = "#000000";  // valor padrão válido para cor
         espessuraBorda.value = "";
+        estiloBorda.value = "";
     };
+
 
     btnExcluir.onclick = function () {
         if (camposCriados.length > 0) {
